@@ -39,12 +39,15 @@ public class MapManager : MonoBehaviour {
         currentPoint++;
         mapPoints[currentPoint - 1].gameObject.SetActive(true);
         pointsOnMap[currentPoint - 1].color = new Color32(255, 255, 225, 100);
+
+        CloseMap();
     }
 
     public void CloseMap()
     {
         this.gameObject.SetActive(false);
     }
+
 
     //This disables all levels for use when switching between points as well as for beginning
     private void DisableAllLevels()
