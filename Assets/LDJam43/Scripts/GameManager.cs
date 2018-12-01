@@ -57,5 +57,50 @@ public class GameManager : MonoBehaviour {
     {
         playerController.FindOtherShip();
         enemyController.FindOtherShip();
+
+    }
+
+    public void DestroyShipPart(string part)
+    {
+
+
+        Engine[] shipEngines = playerShip.GetComponentsInChildren<Engine>(true);
+        ShieldGenerat[] shieldGenerators = playerShip.GetComponentsInChildren<ShieldGenerat>();
+        FuelTank[] fuelTanks = playerShip.GetComponentsInChildren<FuelTank>();
+        Cannon[] cannons = playerShip.GetComponentsInChildren<Cannon>();
+        Wing[] wings = playerShip.GetComponentsInChildren<Wing>();
+
+        if (part == "Engine")
+        {
+            int randomInt = Random.Range(1, shipEngines.Length);
+            Destroy(shipEngines[randomInt - 1].gameObject);
+
+        }
+
+        if (part == "ShieldGenerator")
+        {
+            int randomInt = Random.Range(1, shieldGenerators.Length);
+            Destroy(shieldGenerators[randomInt - 1].gameObject);
+
+
+        }
+
+        if (part == "FuelTank")
+        {
+            int randomInt = Random.Range(1, fuelTanks.Length);
+            Destroy(fuelTanks[randomInt - 1].gameObject);
+        }
+
+        if (part == "Cannon")
+        {
+            int randomInt = Random.Range(1, cannons.Length);
+            Destroy(cannons[randomInt - 1].gameObject);
+        }
+
+        if (part == "Wing")
+        {
+            int randomInt = Random.Range(1, wings.Length);
+            Destroy(wings[randomInt - 1].gameObject);
+        }
     }
 }

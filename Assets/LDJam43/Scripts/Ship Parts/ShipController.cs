@@ -34,7 +34,6 @@ public class ShipController : MonoBehaviour {
     {
         FindOtherShip();
         mapPoint = FindObjectOfType<MapPoint>();
-
     }
 
     private void Update()
