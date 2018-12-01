@@ -20,6 +20,7 @@ public class ShipController : MonoBehaviour {
 
     public GameObject[] partsThatCanBeAimedAt;
 
+    public MapPoint mapPoint;
 
     public GameObject[] engines;
     public GameObject[] shieldGenerators;
@@ -32,11 +33,16 @@ public class ShipController : MonoBehaviour {
     private void Awake()
     {
         FindOtherShip();
-       
+        mapPoint = FindObjectOfType<MapPoint>();
+
     }
 
     private void Update()
     { 
+        if(currentHealth <= 0)
+        {
+            Destroy(this.gameObject);
+        }
 
         if(!isPlayer)
         {
@@ -58,7 +64,7 @@ public class ShipController : MonoBehaviour {
 
 
     //Important to note that there can only be one other ship in the scene(for now at least)
-    private void FindOtherShip()
+    public void FindOtherShip()
     {
         ships = GameObject.FindGameObjectsWithTag("Ship");   
 
@@ -70,5 +76,10 @@ public class ShipController : MonoBehaviour {
                 otherShipController = otherShip.GetComponent<ShipController>();
             }
         }
+    }
+
+    private void OnDestroy()
+    {
+        mapPoint.OpenPanel(mapPoint.outroPanel);
     }
 }

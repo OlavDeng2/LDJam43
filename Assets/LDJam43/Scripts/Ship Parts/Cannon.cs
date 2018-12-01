@@ -57,4 +57,12 @@ public class Cannon : MonoBehaviour {
     {
         partAimingAt = shipController.partAimingAt;
     }
+
+    private void OnEnable()
+    {
+        currentTime = 0f;
+
+    }
+
+    
 }

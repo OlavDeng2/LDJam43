@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 
 public class MapPoint : MonoBehaviour {
@@ -20,10 +21,10 @@ public class MapPoint : MonoBehaviour {
 
 	}
 	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+	public void LoadMainMenu()
+    {
+        SceneManager.LoadScene("MainMenu");
+    }
 
     public void ClosePanel(GameObject panel)
     {
