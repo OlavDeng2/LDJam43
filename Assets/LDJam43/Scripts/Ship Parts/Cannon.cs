@@ -5,17 +5,23 @@ using UnityEngine;
 public class Cannon : MonoBehaviour {
 
     public GameObject laser;
+    public int laserSpeed = 10;
+
     public int health = 4;
 
-    private GameObject ship = null;
+
+    private GameObject partAimingAt = null;
+
     private float timeToCharge = 5f; //Time in seconds
     private float currentTime = 0f;
+
+
+    private ShipController shipController = null;
 
     // Use this for initialization
     void Start()
     {
-        ship = this.transform.parent.gameObject;
-
+        shipController = this.transform.parent.gameObject.GetComponent<ShipController>();
     }
 
     // Update is called once per frame
@@ -23,28 +29,32 @@ public class Cannon : MonoBehaviour {
     {
 
         ChargeCannon();
+        GetTarget();
         ShootCannon();
-        
-        
     }
     
+    //Function that increases the time
     private void ChargeCannon()
     {
         currentTime += Time.deltaTime;
-        if(currentTime > timeToCharge)
-        {
-            print("cannonCharged");
-        }
     }
 
     private void ShootCannon()
     {
-        if (Input.GetMouseButtonDown(0) && currentTime > timeToCharge)
+        //if you press mousebutton and the current timer is larger than the time to charge, you can shoot
+        if (currentTime > timeToCharge && partAimingAt)
         {
             GameObject newLaser = Instantiate(laser, this.gameObject.transform);
             Rigidbody2D laserRB = newLaser.GetComponent<Rigidbody2D>();
-            laserRB.velocity = new Vector2(1, 0);
+            Vector2 direction = partAimingAt.transform.position - this.transform.position;
+            direction.Normalize();
+            laserRB.velocity = direction * laserSpeed;
             currentTime = 0f;
         }
+    }
+
+    private void GetTarget()
+    {
+        partAimingAt = shipController.partAimingAt;
     }
 }
