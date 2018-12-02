@@ -5,6 +5,8 @@ using UnityEngine;
 public class GameManager : MonoBehaviour {
 
     public GameObject shipPrefab;
+    public GameObject gameOverPanel;
+
 
     //Player ship stats
     private GameObject playerShip;
@@ -20,13 +22,10 @@ public class GameManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		
+        
+        gameOverPanel.SetActive(false);
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+
 
     public void SpawnPlayer()
     {
@@ -50,7 +49,7 @@ public class GameManager : MonoBehaviour {
         enemyShip = Instantiate(shipPrefab, enemyPos);
         enemyController = enemyShip.GetComponent<ShipController>();
         enemyController.isPlayer = false;
-        enemyController.currentHealth = 4;
+        enemyController.currentHealth = 8;
     }
 
     public void FindShips()
@@ -58,6 +57,11 @@ public class GameManager : MonoBehaviour {
         playerController.FindOtherShip();
         enemyController.FindOtherShip();
 
+    }
+
+    public void GameOver()
+    {
+        gameOverPanel.SetActive(true);
     }
 
     public void DestroyShipPart(string part)

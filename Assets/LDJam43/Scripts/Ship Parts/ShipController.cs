@@ -40,9 +40,6 @@ public class ShipController : MonoBehaviour {
         FindOtherShip();
         mapPoint = FindObjectOfType<MapPoint>();
         gameManager = FindObjectOfType<GameManager>();
-        if (!isPlayer)
-        {
-        }
     }
 
     private void Update()
@@ -90,8 +87,18 @@ public class ShipController : MonoBehaviour {
 
     private void OnDestroy()
     {
-        mapPoint.OpenPanel(mapPoint.outroPanel);
-        gameManager.DisablePlayer();
+        if(!isPlayer)
+        {
+            mapPoint.OpenPanel(mapPoint.outroPanel);
+            gameManager.DisablePlayer();
+        }
+
+        if (isPlayer)
+        {
+            gameManager.GameOver();
+            print("player ship destroyed");
+        }
+        
     }
 
     private void UpdateShipHealthSlider()
