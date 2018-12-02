@@ -18,4 +18,18 @@ public class MainMenuManager : MonoBehaviour {
         SceneManager.LoadScene("Game");
     }
 	
+    public void QuitGame()
+    {
+        Application.Quit();
+    }
+
+    public void OpenPanel(Panel panelToOpen)
+    {
+        foreach(Panel panel in menuPanels)
+        {
+            panel.gameObject.SetActive(false);
+        }
+
+        panelToOpen.gameObject.SetActive(true);
+    }
 }

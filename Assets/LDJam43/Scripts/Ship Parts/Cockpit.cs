@@ -44,7 +44,7 @@ public class Cockpit : MonoBehaviour {
             shipController.partBeingAimedAt = this.gameObject;
 
             //Change the colour of the sprite to yellow, in future it will switch sprites
-            sprite.color = Color.yellow;
+            sprite.color = new Color(125, 125, 125, 100);
 
         }
     }

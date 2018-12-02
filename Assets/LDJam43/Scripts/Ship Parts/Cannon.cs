@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Cannon : MonoBehaviour {
 
@@ -9,6 +10,9 @@ public class Cannon : MonoBehaviour {
 
     public int health = 4;
 
+    private AudioSource soundEffect;
+
+    public Slider chargeIndicator;
 
     private GameObject partAimingAt = null;
 
@@ -22,6 +26,7 @@ public class Cannon : MonoBehaviour {
     void Start()
     {
         shipController = this.transform.parent.gameObject.GetComponent<ShipController>();
+        soundEffect = this.gameObject.GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -31,24 +36,30 @@ public class Cannon : MonoBehaviour {
         ChargeCannon();
         GetTarget();
         ShootCannon();
+        SetChargeIndicator();
     }
     
     //Function that increases the time
     private void ChargeCannon()
     {
         currentTime += Time.deltaTime;
+        if(currentTime > timeToCharge)
+        {
+            currentTime = timeToCharge;
+        }
     }
 
     private void ShootCannon()
     {
         //if you press mousebutton and the current timer is larger than the time to charge, you can shoot
-        if (currentTime > timeToCharge && partAimingAt)
+        if (currentTime >= timeToCharge && partAimingAt)
         {
             GameObject newLaser = Instantiate(laser, this.gameObject.transform);
             Rigidbody2D laserRB = newLaser.GetComponent<Rigidbody2D>();
             Vector2 direction = partAimingAt.transform.position - this.transform.position;
             direction.Normalize();
             laserRB.velocity = direction * laserSpeed;
+            soundEffect.PlayOneShot(soundEffect.clip);
             currentTime = 0f;
         }
     }
@@ -62,6 +73,11 @@ public class Cannon : MonoBehaviour {
     {
         currentTime = 0f;
 
+    }
+
+    private void SetChargeIndicator()
+    {
+        chargeIndicator.value = currentTime / timeToCharge;
     }
 
     

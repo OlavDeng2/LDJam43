@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ShipController : MonoBehaviour {
 
@@ -10,6 +11,10 @@ public class ShipController : MonoBehaviour {
 
     public bool isPlayer;
     public GameObject outroPanel;
+    public GameManager gameManager;
+
+    public GameObject shipUI;
+    public Slider shipHealthSlider;
 
     private GameObject[] ships;
     public GameObject otherShip;
@@ -34,30 +39,36 @@ public class ShipController : MonoBehaviour {
     {
         FindOtherShip();
         mapPoint = FindObjectOfType<MapPoint>();
+        gameManager = FindObjectOfType<GameManager>();
+        if (!isPlayer)
+        {
+        }
     }
 
     private void Update()
-    { 
-        if(currentHealth <= 0)
+    {
+        if (currentHealth <= 0)
         {
             Destroy(this.gameObject);
         }
 
-        if(!isPlayer)
+        if (!isPlayer)
         {
-            if(!partAimingAt)
+            if (!partAimingAt)
             {
                 //Do some AI stuff to determine where to shoot
                 int randomInt = Random.Range(1, partsThatCanBeAimedAt.Length) - 1;
                 partAimingAt = otherShipController.partsThatCanBeAimedAt[randomInt];
                 otherShipController.partBeingAimedAt = partAimingAt;
             }
-            
+            shipUI.SetActive(false);
+
         }
 
         else if (isPlayer)
         {
             partAimingAt = otherShipController.partBeingAimedAt;
+            UpdateShipHealthSlider();
         }
     }
 
@@ -65,9 +76,9 @@ public class ShipController : MonoBehaviour {
     //Important to note that there can only be one other ship in the scene(for now at least)
     public void FindOtherShip()
     {
-        ships = GameObject.FindGameObjectsWithTag("Ship");   
+        ships = GameObject.FindGameObjectsWithTag("Ship");
 
-        foreach(GameObject ship in ships)
+        foreach (GameObject ship in ships)
         {
             if (ship != this.gameObject)
             {
@@ -80,5 +91,12 @@ public class ShipController : MonoBehaviour {
     private void OnDestroy()
     {
         mapPoint.OpenPanel(mapPoint.outroPanel);
+        gameManager.DisablePlayer();
+    }
+
+    private void UpdateShipHealthSlider()
+    {
+        shipHealthSlider.maxValue = maxHealth;
+        shipHealthSlider.value = currentHealth;
     }
 }
